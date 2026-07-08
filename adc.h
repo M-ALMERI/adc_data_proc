@@ -79,4 +79,10 @@ double adc_raw_to_voltage(uint16_t raw_value);
 double adc_raw_temp_to_celsius(int16_t raw_temperature);
 void adc_copy_record_to_sample(const ADCRawRecord *raw_record, ADCSample *sample);
 
+int adc_sample_has_fault(const ADCSample *sample);
+
+void adc_build_channel_summaries(const ADCSample *samples,
+                                 size_t sample_count,
+                                 ADCChannelSummary summaries[ADC_CHANNELS]);
+
 #endif
