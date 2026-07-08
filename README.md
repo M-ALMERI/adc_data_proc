@@ -2,7 +2,7 @@
 
 A C99 program for inspecting a binary ADC sensor log file.
 
-The program reads the ADC dataset, validates the binary header, processes the sensor records, detects abnormal readings, checks sequence continuity, and generates output reports.
+The application analyses a binary ADC sensor log by validating the file format, converting raw measurements into engineering values, identifying abnormal conditions and producing two diagnostic reports.
 
 ## Features
 
@@ -50,3 +50,23 @@ fault_report.txt - individual fault events with timestamp, channel, voltage and 
 The binary ADC record structure is packed because the dataset stores each record as exactly 16 bytes.
 
 The sequence gap report intentionally stores and prints up to 32 gaps. The program still scans the full dataset for sequence gaps, but the report output is capped to keep the reporting buffer simple and fixed-size.
+
+## Test Cases
+
+The program was checked with the following cases:
+
+Valid dataset            -- Reports are generated successfully
+Missing file             -- File opening error is displayed
+No command-line argument -- Usage message is displayed
+Empty binary file        -- Header read error is displayed
+Truncated binary file    -- Early end-of-file error is displayed
+Invalid magic number     -- File format error is displayed
+
+# Example successful run:
+
+Opening ADC binary log: adc_sensor_log.bin
+Processing complete.
+Output files created: results.txt and fault_report.txt
+
+
+# This project was developed as part of the UFMFGT-15-1 Programming for Engineers coursework.
