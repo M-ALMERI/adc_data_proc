@@ -1,0 +1,5 @@
+*.exe
+*.o
+build/
+results.txt
+fault_report.txt
