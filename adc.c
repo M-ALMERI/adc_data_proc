@@ -99,3 +99,28 @@ void adc_build_channel_summaries(const ADCSample *samples,
         summaries[channel].max_temperature = temperature_trackers[channel].max;
     }
 }
+
+size_t adc_find_sequence_gaps(const ADCSample *samples,
+                              size_t sample_count,
+                              ADCSequenceGap *gaps,
+                              size_t max_gaps) {
+    size_t found = 0;
+
+    for (size_t i = 0; i + 1 < sample_count; i++) {
+        uint32_t previous = samples[i].sequence_number;
+        uint32_t next = samples[i + 1].sequence_number;
+
+        if (next > previous + 1) {
+            if (found < max_gaps) {
+                gaps[found].previous_sequence = previous;
+                gaps[found].next_sequence = next;
+                gaps[found].first_missing = previous + 1;
+                gaps[found].last_missing = next - 1;
+            }
+
+            found++;
+        }
+    }
+
+    return found;
+}

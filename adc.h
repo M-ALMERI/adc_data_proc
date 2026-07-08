@@ -85,4 +85,9 @@ void adc_build_channel_summaries(const ADCSample *samples,
                                  size_t sample_count,
                                  ADCChannelSummary summaries[ADC_CHANNELS]);
 
+size_t adc_find_sequence_gaps(const ADCSample *samples,
+                              size_t sample_count,
+                              ADCSequenceGap *gaps,
+                              size_t max_gaps);
+
 #endif
