@@ -1,4 +1,4 @@
-# ADC Binary Log Inspector
+# ADC Binary Log Processor
 
 A C99 program for inspecting a binary ADC sensor log file.
 
@@ -42,8 +42,8 @@ cmake --build .
 
 # Output Files
 
-results.txt - channel statistics, fault counts and sequence gap summary
-fault_report.txt - individual fault events with timestamp, channel, voltage and reason
+results.txt - channel statistics, fault counts and sequence gap summary.
+fault_report.txt - individual fault events with timestamp, channel, voltage and reason.
 
 # Notes
 
@@ -55,12 +55,12 @@ The sequence gap report intentionally stores and prints up to 32 gaps. The progr
 
 The program was checked with the following cases:
 
-Valid dataset            -- Reports are generated successfully
-Missing file             -- File opening error is displayed
-No command-line argument -- Usage message is displayed
-Empty binary file        -- Header read error is displayed
-Truncated binary file    -- Early end-of-file error is displayed
-Invalid magic number     -- File format error is displayed
+- Valid dataset            -- Reports are generated successfully
+- Missing file             -- File opening error is displayed
+- No command-line argument -- Usage message is displayed
+- Empty binary file        -- Header read error is displayed
+- Truncated binary file    -- Early end-of-file error is displayed
+- Invalid magic number     -- File format error is displayed
 
 # Example successful run:
 
