@@ -12,4 +12,8 @@ int io_save_results(const char *filename,
                     size_t visible_gap_count,
                     size_t total_gap_count);
 
+int io_save_fault_log(const char *filename,
+                      const ADCSample *samples,
+                      size_t count);
+
 #endif

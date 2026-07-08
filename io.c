@@ -144,3 +144,60 @@ int io_save_results(const char *filename,
     fclose(file);
     return 1;
 }
+
+int io_save_fault_log(const char *filename,
+                      const ADCSample *samples,
+                      size_t count) {
+    FILE *file = fopen(filename, "w");
+
+    if (file == NULL) {
+        printf("Error: could not write '%s'.\n", filename);
+        return 0;
+    }
+
+    fprintf(file, "FAULT EVENT REPORT\n");
+    fprintf(file, "==================\n\n");
+    fprintf(file, "This file lists only records where at least one fault condition was detected.\n\n");
+
+    size_t event_number = 1;
+
+    for (size_t i = 0; i < count; i++) {
+        const ADCSample *sample = samples + i;
+
+        if (!adc_sample_has_fault(sample)) {
+            continue;
+        }
+
+        fprintf(file, "[Event %zu]\n", event_number);
+        fprintf(file, "Record index : %zu\n", i);
+        fprintf(file, "Sequence no. : %u\n", sample->sequence_number);
+        fprintf(file, "Timestamp    : %.4f s\n", sample->timestamp);
+        fprintf(file, "Channel      : %u\n", sample->channel_id);
+        fprintf(file, "Voltage      : %.6f V\n", sample->voltage);
+        fprintf(file, "Temperature  : %.2f C\n", sample->temperature_c);
+        fprintf(file, "Flags        : 0x%02X\n", sample->status_flags);
+        fprintf(file, "Reason       : ");
+
+        if (sample->voltage > ADC_OVERVOLTAGE_LIMIT) {
+            fprintf(file, "voltage above limit; ");
+        }
+
+        if (sample->voltage < ADC_UNDERVOLTAGE_LIMIT) {
+            fprintf(file, "voltage below limit; ");
+        }
+
+        if (sample->status_flags & ADC_FLAG_SENSOR_FAULT) {
+            fprintf(file, "sensor fault flag set; ");
+        }
+
+        if (sample->status_flags & ADC_FLAG_OUT_OF_RANGE) {
+            fprintf(file, "out-of-range flag set; ");
+        }
+
+        fprintf(file, "\n\n");
+        event_number++;
+    }
+
+    fclose(file);
+    return 1;
+}
