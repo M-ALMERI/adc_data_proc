@@ -5,4 +5,11 @@
 
 ADCSample *io_load_adc_log(const char *filename, ADCHeader *header);
 
+int io_save_results(const char *filename,
+                    const ADCHeader *header,
+                    const ADCChannelSummary summaries[ADC_CHANNELS],
+                    const ADCSequenceGap *gaps,
+                    size_t visible_gap_count,
+                    size_t total_gap_count);
+
 #endif
